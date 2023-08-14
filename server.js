@@ -6,7 +6,7 @@ const signUpRouter = require("./routes/sign-up");
 const employeeRouter = require("./routes/employee");
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 //setup our server
 app.listen(port, () =>
