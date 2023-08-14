@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const SignUp = require("../models/sign-up");
 const CryptoJS = require("crypto-js");
+const jwt = require("jsonwebtoken");
 
 /* 
 name;
@@ -32,9 +33,15 @@ router.post("/sign-up", async (req, res) => {
   // saving the user info into the mongodb Database
   try {
     const savedSignUpData = await newSignUpUserData.save();
-    res.status(200).json(savedSignUpData);
+    const token = jwt.sign(
+      { userName: savedSignUpData.userName },
+      process.env.PASS_SECRET,
+      { expiresIn: "2m" }
+    );
+    console.log("token", token);
+    res.status(201).json({ ...savedSignUpData, token });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(400).json(err);
   }
 });
 
