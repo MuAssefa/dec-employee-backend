@@ -66,4 +66,31 @@ router.get("/employees", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    await Employee.findByIdAndDelete({ _id: req.params.id });
+    res.status(200).json("The user has been deleted");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+// updated user info
+router.put("/:id", async (req, res) => {
+  try {
+    const query = { _id: req.params.id };
+    const updatedEmployee = await Employee.findOneAndUpdate(
+      query,
+      {
+        $set: req.body,
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json(updatedEmployee);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

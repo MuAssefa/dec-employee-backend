@@ -4,6 +4,7 @@ require("dotenv").config();
 const userRouter = require("./routes/user");
 const signUpRouter = require("./routes/sign-up");
 const employeeRouter = require("./routes/employee");
+const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -19,7 +20,7 @@ mongoose
   .catch((err) => console.log(err));
 
 //midlewars
-
+app.use(cors());
 app.use(express.json());
 app.use("/api/users", userRouter); //user
 app.use("/api/employees", employeeRouter); //employee
